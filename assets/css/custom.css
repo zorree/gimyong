@@ -1,0 +1,64 @@
+.table-nowrap>thead>tr>th,
+.table-nowrap>thead>tr>td,
+.table-nowrap>tbody>tr>td {
+    white-space: nowrap;
+}
+
+.tr-disabled {
+    background-color: LightGray;
+}
+
+.text-fade {
+    color: LightGray;
+}
+
+a.progress:hover {
+    background-color: LightGray;
+}
+
+#map {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 400px;
+}
+
+.home #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.full-screen {
+    margin: 0;
+    padding: 0;
+}
+
+.full-height {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background-color: yellow;
+}
+
+.button {
+    /* display: block; */
+    /* position: relative; */
+    text-align: center;
+    margin: 200px auto;
+    width: 100px;
+    height: 50px;
+    font-size: 2px;
+    border-radius: 3px;
+}
+
+.z-index-1 {
+    z-index: 1
+}
+
+.font16 {
+    font-size: 16px;
+}

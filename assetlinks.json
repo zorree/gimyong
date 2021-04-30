@@ -1,0 +1,25 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.applink",
+    "sha256_cert_fingerprints":
+    ["95:D2:BE:05:55:51:BF:05:62:A1:93:2D:52:C1:D5:88:73:8B:35:C2:04:4F:3F:80:3D:57:38:C3:D7:1C:7E:94"]
+  }
+},
+{
+  "relation": ["delegate_permission/common.get_login_creds"],
+  "target": {
+    "namespace": "web",
+    "site": "https://192.168.43.224:8080"
+  }
+},
+{
+  "relation": ["delegate_permission/common.get_login_creds"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.applink",
+    "sha256_cert_fingerprints":
+    ["95:D2:BE:05:55:51:BF:05:62:A1:93:2D:52:C1:D5:88:73:8B:35:C2:04:4F:3F:80:3D:57:38:C3:D7:1C:7E:94"]
+  }
+}]
