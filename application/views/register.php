@@ -51,11 +51,11 @@
                     </div>
                     <div class="form-group">
                       <label>Password</label>
-                      <input type="password" class="form-control" name="password" id="password" placeholder="Password" onkeyup="checkCustomerPassword()" required>
+                      <!-- <input type="password" class="form-control" name="password" id="password" placeholder="Password" onkeyup="checkCustomerPassword()" required> -->
                     </div>
                     <div class="form-group">
                       <label>Confirm Password</label>
-                      <input type="password" class="form-control" name="conPassword" id="conPassword" placeholder="Confirm Password" onkeyup="checkCustomerPassword()" required>
+                      <!-- <input type="password" class="form-control" name="conPassword" id="conPassword" placeholder="Confirm Password" onkeyup="checkCustomerPassword()" required> -->
                     </div>
                     <div class="form-group m-0 text-right">
                       <label class="form-group d-none m-0" id="outPassword"></label>
@@ -66,15 +66,15 @@
                     </div>
                     <div class="form-group">
                       <label>First Name</label>
-                      <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter First Name" required>
+                      <!-- <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter First Name" required> -->
                     </div>
                     <div class="form-group">
                       <label>Last Name</label>
-                      <input type="text" class="form-control" id="exampleInputLastName" placeholder="Enter Last Name" required>
+                      <!-- <input type="text" class="form-control" id="exampleInputLastName" placeholder="Enter Last Name" required> -->
                     </div>
                     <div class="form-group">
                       <label>Email</label>
-                      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address" required>
+                      <!-- <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address" required> -->
                     </div>
                     <div class="form-group">
                       <button type="submit" class="btn btn-primary btn-block" id="submit" name="submit" value="1" disabled>Register</button>
@@ -100,11 +100,11 @@
                     </div>
                     <div class="form-group">
                       <label>Password</label>
-                      <input type="password" class="form-control" name="password" id="mpassword" placeholder="Password" onkeyup="checkMarketPassword()" required>
+                      <!-- <input type="password" class="form-control" name="password" id="mpassword" placeholder="Password" onkeyup="checkMarketPassword()" required> -->
                     </div>
                     <div class="form-group">
                       <label>Confirm Password</label>
-                      <input type="password" class="form-control" name="conPassword" id="mconPassword" placeholder="Confirm Password" onkeyup="checkMarketPassword()" required>
+                      <!-- <input type="password" class="form-control" name="conPassword" id="mconPassword" placeholder="Confirm Password" onkeyup="checkMarketPassword()" required> -->
                     </div>
                     <div class="form-group m-0 text-right">
                       <label class="form-group d-none m-0" id="moutPassword"></label>
@@ -115,15 +115,15 @@
                     </div>
                     <div class="form-group">
                       <label>First Name</label>
-                      <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter First Name" required>
+                      <!-- <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter First Name" required> -->
                     </div>
                     <div class="form-group">
                       <label>Last Name</label>
-                      <input type="text" class="form-control" id="exampleInputLastName" placeholder="Enter Last Name" required>
+                      <!-- <input type="text" class="form-control" id="exampleInputLastName" placeholder="Enter Last Name" required> -->
                     </div>
                     <div class="form-group">
                       <label>Email</label>
-                      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address" required>
+                      <!-- <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address" required> -->
                     </div>
                     <div class="form-group">
                       <button type="submit" class="btn btn-primary btn-block" id="submit" name="submit" value="2">Register</button>
