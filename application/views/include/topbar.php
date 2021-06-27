@@ -25,22 +25,30 @@
 				<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
 					<form action="<?php echo site_url('index/login'); ?>" method="post">
 						<div class="text-center m-2">
-							<span>เข้าสู่ระบบ</span>
+							<h5>เข้าสู่ระบบ</h5>
+							<!-- <span>เข้าสู่ระบบ</span> -->
 							<!-- <img src="<?php echo site_url('assets/img/psupassport.png'); ?>" alt="passport-logo" width="150"> -->
 						</div>
-						<div class="dropdown-item" style="background: initial !important;">
-							<!-- <input class="form-control form-control-sm" id="username" name="username" placeholder="Username" required/> -->
+						<!-- <div class="dropdown-item" style="background: initial !important;">
+							<input class="form-control form-control-sm" id="username" name="username" placeholder="Username" required/>
 							<input class="form-control" id="username" name="username" placeholder="Username" required/>
 						</div>
 						<div class="dropdown-item input-group" style="background: initial !important;">
-							<!-- <input class="form-control form-control-sm" name="password" placeholder="Password" type="password" required/> -->
+							<input class="form-control form-control-sm" name="password" placeholder="Password" type="password" required/>
 							<input class="form-control" name="password" placeholder="Password" type="password" required/>
+						</div> -->
+						<div class="dropdown-item" style="background: initial !important;">
+							<!-- <button type="submit" class="btn btn-primary btn-block" name="submit" value="1">สำหรับนักท่องเที่ยว</button> -->
+							<a href="<?php echo site_url("index/login/customer")?>" class="btn btn-primary btn-block">สำหรับนักท่องเที่ยว</a>
 						</div>
 						<div class="dropdown-item" style="background: initial !important;">
-							<button type="submit" class="btn btn-sm btn-primary btn-block" name="btnSubmit">Login</button>
+							<!-- <button type="submit" class="btn btn-warning btn-block" name="submit" value="1">สำหรับร้านค้า</button> -->
+							<a href="<?php echo site_url("index/login/market")?>" class="btn btn-warning btn-block">สำหรับร้านค้า</a>
 						</div>
 						<div class="dropdown-item" style="background: initial !important;">
-							<a href="<?php echo site_url("index/register")?>" class="btn btn-sm btn-secondary btn-block">Register</a>
+							<hr>
+							<!-- <a href="<?php //echo site_url("index/register")?>" class="btn btn-sm btn-secondary btn-block">ลงทะเบียน</a> -->
+							<a href="<?php echo site_url("index/register")?>" class="d-flex justify-content-center">ลงทะเบียน</a>
 						</div>
 					</form>
 				</div>

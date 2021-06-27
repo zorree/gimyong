@@ -16,19 +16,23 @@ a.progress:hover {
     background-color: LightGray;
 }
 
-#map {
+i .head {
+    width: 400px;
+    height: 50px;
+}
+
+
+/* #map {
     position: relative;
-    top: 0;
-    bottom: 0;
     width: 100%;
-    min-height: 400px;
+    height: 100%;
 }
 
 .home #map {
     position: absolute;
     top: 0;
     bottom: 0;
-}
+} */
 
 .full-screen {
     margin: 0;
@@ -41,7 +45,6 @@ a.progress:hover {
     bottom: 0;
     height: 100%;
     width: 100%;
-    background-color: yellow;
 }
 
 .button {

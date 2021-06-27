@@ -10,7 +10,7 @@ $seg2 = $this->uri->segment(2); ?>
 	<hr class="sidebar-divider my-0">
 	<li class="nav-item <?php echo $seg1 == '' || $seg1 == 'index' ? 'active' : ''; ?>">
 		<a class="nav-link" href="<?php echo site_url(); ?>">
-			<i class="fas fa-home"></i>
+			<i class="fas fa-home" style="font-size: 18px;"></i>
 			<span>หน้าแรก</span>
 		</a>
 	</li>
@@ -38,25 +38,32 @@ $seg2 = $this->uri->segment(2); ?>
 						<i class="fas fa-street-view" style="font-size: 20px;"></i>
 						<span>ลูกค้า</span>
 					</a>
-				</li><li class="nav-item <?php echo $seg1 == 'admin' && $seg2 == 'promotion' ? 'active' : ''; ?>">
+				</li>
+				<!-- <li class="nav-item <?php echo $seg1 == 'admin' && $seg2 == 'promotion' ? 'active' : ''; ?>">
 					<a class="nav-link" href="<?php echo site_url('admin/promotion'); ?>"  >
 						<i class="fas fa-bullhorn" style="font-size: 16px;"></i>
 						<span>โปรโมชั่น</span>
 					</a>
-				</li>
+				</li> -->
 		<?php 
 			} else if ($this->session->userdata('type') == 'market'){ 
 		?>
-				<li class="nav-item <?php echo $seg1 == 'market' && ($seg2 == 'profile') ? 'active' : ''; ?>">
+				<li class="nav-item <?php echo $seg1 == 'market' && ($seg2 == 'profile' || $seg2 == 'marketedit') ? 'active' : ''; ?>">
 					<a class="nav-link " href="<?php echo site_url('market/profile'); ?>"  >
 						<i class="fas fa-file-signature" style="font-size: 18px;"></i>
 						<span>โปรไฟล์</span>
 					</a>
 				</li>
-				<li class="nav-item <?php echo $seg1 == 'market' && ($seg2 == 'promotion' || $seg2 == 'working') ? 'active' : ''; ?>">
-					<a class="nav-link" href="<?php echo site_url('market/promotion'); ?>">
-						<i class="fas fa-history" style="font-size: 20px;"></i>
-						<span>โปรโมชั่นร้าน</span>
+				<li class="nav-item <?php echo $seg1 == 'market' && ($seg2 == 'goods') ? 'active' : ''; ?>">
+					<a class="nav-link" href="<?php echo site_url('market/goods'); ?>">
+						<i class="fas fa-dolly" style="font-size: 18px;"></i>
+						<span>สินค้าแนะนำ</span>
+					</a>
+				</li>
+				<li class="nav-item <?php echo $seg1 == 'market' && ($seg2 == 'report') ? 'active' : ''; ?>">
+					<a class="nav-link" href="<?php echo site_url('market/report'); ?>">
+						<i class="fas fa-comment-alt" style="font-size: 20px;"></i>
+						<span>ความคิดเห็น</span>
 					</a>
 				</li>
 		<?php 
@@ -68,24 +75,18 @@ $seg2 = $this->uri->segment(2); ?>
 					<span>โปรไฟล์</span>
 				</a>
 			</li>
-			<li class="nav-item <?php echo $seg1 == 'customer' && ($seg2 == 'market' || $seg2 == 'working') ? 'active' : ''; ?>">
+			<li class="nav-item <?php echo $seg1 == 'customer' && ($seg2 == 'market' || $seg2 == 'marketdetail') ? 'active' : ''; ?>">
 				<a class="nav-link" href="<?php echo site_url('customer/market'); ?>">
-					<i class="fas fa-history" style="font-size: 20px;"></i>
+					<i class="fas fa-store" style="font-size: 16px;"></i>
 					<span>ร้านค้า</span>
 				</a>
 			</li>
-			<!-- <li class="nav-item <?php echo $seg1 == 'student' && ($seg2 == 'history' || $seg2 == 'working') ? 'active' : ''; ?>">
-				<a class="nav-link" href="<?php echo site_url('student/history'); ?>">
-					<i class="fas fa-history"></i>
-					<span>โปรโมชั่น</span>
+			<li class="nav-item <?php echo $seg1 == 'student' && ($seg2 == 'report') ? 'active' : ''; ?>">
+				<a class="nav-link" href="<?php echo site_url('customer/report'); ?>">
+					<i class="fas fa-history" style="font-size: 20px;"></i>
+					<span>ความคิดเห็น</span>
 				</a>
 			</li>
-			<li class="nav-item <?php echo $seg1 == 'student' && ($seg2 == 'history' || $seg2 == 'working') ? 'active' : ''; ?>">
-				<a class="nav-link" href="<?php echo site_url('student/history'); ?>">
-					<i class="fas fa-history"></i>
-					<span>ประวัติการทำงาน</span>
-				</a>
-			</li> -->
 		<?php 
 			} 
 		?>

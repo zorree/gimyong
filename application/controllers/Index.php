@@ -8,57 +8,95 @@ class Index extends CI_Controller {
 	}
 
 	public function index() {
-		$data['content'] = 'index';
+		// $data['shoptype']	= ["food", "dish", "wear"];
+		$data['content']	= 'index';
+		$data['marker']		= $this->IndexModel->loadMarker();
 		$this->load->view('include/layout', $data);
+		// $data = $this->IndexModel->loadMarker();
+		// $myJSON = json_encode($data);
+		// print_r($data['marker'][0]);
 	}
 
-	public function login() {
+	public function searchmarket() {
+		$x = $this->IndexModel->loadDataMarkerSearch($this->input->post('data'));
+		// print_r($x);
+		// echo json_encode($x);
+		echo json_encode($x);
+	}
+		
+
+	public function encrypt() {
+		// The unencrypted password to be hashed 
+		$unencrypted_password = "Cloudways@123"; 
+  
+		// The hash of the password can be saved in the database
+		$hash = password_hash($unencrypted_password, PASSWORD_DEFAULT); 
+		
+		// Print the generated hash code
+		echo "Generated hash code: ".$hash; 
+
+		$verify = password_verify($unencrypted_password, '$2y$10$RQuPUbswMji83Ix18ZA7s./4FtEV.sSTY3N1VNzEwVUsSic4RsPve'); 
+		
+		echo "<br>Generated hash code: ".$verify; 
+	}
+
+	public function addplaces($id) {
+		echo json_encode($this->IndexModel->loadDataMarker($id));
+	}
+
+	public function login($login) {
+		if ($login == 'customer'){
+			$data['icon'] 	= 'fa-street-view';
+			$data['submit'] = '2';
+		} else if ($login == 'market'){
+			$data['icon'] 	= 'fa-store';
+			$data['submit'] = '1';
+		} else {
+			// redirect();
+			echo '<script>alert("ท่านไม่ทำตามระบบ");window.location="'.site_url().'";</script>';
+		}
+		$this->load->view('login', $data);
+	}
+
+	public function loginCheck() {
 		if($this->input->post()) {
 			$user		= $this->input->post('username');
-			$pass		= $this->input->post('password');
-			$usercheck	= $this->IndexModel->loadUser($user);
-			if ($usercheck != Array ()) {
-				if($usercheck[0]['u_level'] == 1){
-					$admin = $this->IndexModel->checkAdmin($usercheck[0]['u_id']);
-					$sess['user']		= $user;
-					$sess['name']		= "{$admin[0]['a_name']} {$admin[0]['a_lname']}";
-					$sess['gender']		= 'M';
-					$sess['level']		= $usercheck[0]['u_level'];
-					$sess['type']		= 'admin';
-					$sess['login']		= true;
-					$this->session->set_userdata($sess);
-					redirect();
-				}
-				else if($usercheck[0]['u_level'] == 2){
-					$market = $this->IndexModel->checkMarket($usercheck[0]['u_id']);
-					$sess['u_id']		= $market[0]['u_id'];
-					$sess['m_id']		= $market[0]['m_id'];
-					$sess['user']		= $user;
-					$sess['name']		= "{$market[0]['m_name']} {$market[0]['m_lname']}";
-					$sess['gender']		= 'M';
-					$sess['level']		= $usercheck[0]['u_level'];
+			$pass		= md5($this->input->post('password'));
+			$level		= $this->input->post('submit');
+			if ($level == 1) {
+				//market
+				$usercheck			= $this->IndexModel->loadUser('market', 'm_user', $user, 'm_pass', $pass);
+				if ($usercheck != Array())	{
+					$sess['id']			= $usercheck[0]['m_id'];
+					$sess['user']		= $usercheck[0]['m_user'];
+					$sess['name']		= "{$usercheck[0]['m_name']} {$usercheck[0]['m_lname']}";
+					$sess['level']		= $usercheck[0]['m_level'];
 					$sess['type']		= 'market';
 					$sess['login']		= true;
 					$this->session->set_userdata($sess);
-					redirect();
+					redirect('market/index');
+				} else {
+					echo '<script>alert("ชื่อผู้ใช้ หรือ รหัสผ่านของท่านไม่ถูกต้อง ");window.location="'.site_url('index/login/market').'";</script>';
 				}
-				else if($usercheck[0]['u_level'] == 3){
-					$customer = $this->IndexModel->checkCustomer($usercheck[0]['u_id']);
-					$sess['u_id']		= $customer[0]['u_id'];
-					$sess['c_id']		= $customer[0]['c_id'];
-					$sess['name']		= "{$customer[0]['c_name']} {$customer[0]['c_lname']}";
-					$sess['gender']		= 'M';
-					$sess['level']		= $usercheck[0]['u_level'];
+			} else if ($level == 2) {
+				//customer
+				$usercheck			= $this->IndexModel->loadUser('customer', 'c_user', $user, 'c_pass', $pass);
+				if ($usercheck != Array()) {
+					$sess['id']			= $usercheck[0]['c_id'];
+					$sess['user']		= $usercheck[0]['c_user'];
+					$sess['name']		= "{$usercheck[0]['c_name']} {$usercheck[0]['c_lname']}";
 					$sess['type']		= 'customer';
 					$sess['login']		= true;
 					$this->session->set_userdata($sess);
 					redirect();
 				} else {
-					echo '<script>alert("ชื่อผู้ใช้ หรือ รหัสผ่านของท่านไม่ถูกต้อง");window.location="'.site_url().'";</script>';
+					echo '<script>alert("ชื่อผู้ใช้ หรือ รหัสผ่านของท่านไม่ถูกต้อง ");window.location="'.site_url('index/login/customer').'";</script>';
 				}
 			} else {
-				echo '<script>alert("ชื่อผู้ใช้ หรือ รหัสผ่านของท่านไม่ถูกต้อง");window.location="'.site_url().'";</script>';
-			}
+				echo '<script>alert("ท่านไม่ทำตามระบบ");window.location="'.site_url().'";</script>';
+			} 
+		} else {
+			echo '<script>alert("ท่านไม่ทำตามระบบ");window.location="'.site_url().'";</script>';
 		}
 	}
 
@@ -67,7 +105,15 @@ class Index extends CI_Controller {
 	}
 
 	public function userCheck($user) {
-		if ($this->IndexModel->loadUser($user) != Array ()){
+		if ($this->IndexModel->loadCUser($user) != Array ()){
+			echo ("มีชื่อผู้ใช้งานนี้แล้ว");
+		} else {
+			echo ("");
+		}
+	}
+
+	public function muserCheck($user) {
+		if ($this->IndexModel->loadMUser($user) != Array ()){
 			echo ("มีชื่อผู้ใช้งานนี้แล้ว");
 		} else {
 			echo ("");
@@ -75,8 +121,68 @@ class Index extends CI_Controller {
 	}
 
 	public function registerCheck() {
-		print_r($this->input->post());
-		
+		// print_r($this->input->post());
+		if ($this->input->post()) {
+			$username	=	$this->input->post('username');
+			$password	=	$this->input->post('password');
+			// $firstname	=	$this->input->post('firstname');
+			// $lastname	=	$this->input->post('lastname');
+			$submit		=	$this->input->post('submit');
+			if ($submit == 1) {
+				// echo ("customer");
+				$data	=	array(
+					'c_user'	=>	$username,
+					'c_pass'	=>	md5($password),
+					'c_name'	=>	$this->input->post('cname'),
+					'c_lname'	=>	$this->input->post('clname')
+				);
+				$this->IndexModel->addRegister('customer', $data);
+				echo '<script>alert("ลงทะเบียนสำเร็จ");window.location="'.site_url().'";</script>';
+			} else if ($submit == 2) {
+				$mname			=	$this->input->post('mname');
+				$mlname			=	$this->input->post('mlname');
+				$mmarketname	=	$this->input->post('mmarketname');
+				$mtype			=	$this->input->post('mtype');
+				$mlong			=	$this->input->post('mlong');
+				$mlat			=	$this->input->post('mlat');
+				$data	=	array(
+					'm_user'		=>	$username ,
+					'm_pass'		=>	md5($password) ,
+					'm_name'		=>	$mname ,
+					'm_lname'		=>	$mlname ,
+					'm_shopname'	=>	$mmarketname ,
+					'm_shoptype'	=>	$mtype ,
+					'm_lng'			=>	$mlong ,
+					'm_lat'			=>	$mlat
+				);
+				$this->IndexModel->addRegister('market', $data);
+				echo '<script>alert("ลงทะเบียนสำเร็จ");window.location="'.site_url().'";</script>';
+			} else {
+				echo ("NO data");
+			}
+		} else {
+			echo ("No data");
+		}	
+	}
+
+	public function marketdetial($id) {
+		// print_r($this->input->post());
+		if ($this->session->userdata('type') == 'customer') {
+			redirect("customer/marketdetail/{$id}");
+		}
+		$data['id']				= $id;
+		$data['marketdetail']	= $this->IndexModel->loadmarketid($id);
+		$data['Rgoods'] 		= $this->IndexModel->Rgoods($id);
+		$data['report'] 		= $this->IndexModel->report($id);
+		$data['content']		= 'marketdetial';
+		$this->load->view('include/layout', $data);
+	}
+
+	public function gooddetail($id) { 
+		$data['Rgoods'] 		= $this->IndexModel->Rgoods($id);
+		$data['goods'] 			= $this->IndexModel->goods($id);
+		$data['content']		= 'goods';
+		$this->load->view('include/layout', $data);
 	}
 	
 	public function logout() {
@@ -84,129 +190,4 @@ class Index extends CI_Controller {
 		redirect();
 	}
 
-	// public function path() {
-	// 	if ($this->session->userdata('type') == 'admin') {
-	// 		if ($this->session->userdata('level') == 0) {
-	// 			redirect('admin'); //admin
-	// 		} else {
-	// 			redirect('dept'); //depS, dept
-	// 		}
-	// 	} else {
-	// 		redirect('student'); //student
-	// 	}
-	// }
-	// public function editnews() {
-	// 	$this->session->userdata('type') == 'admin' && $this->session->userdata('level') == 0 ?: redirect();
-	// 	if($this->input->post()) {
-	// 		$file = fopen('assets/file/news.html', 'w') or die("Unable to open file!");
-	// 		fwrite($file, $this->input->post('news'));
-	// 		fclose($file);
-	// 		redirect();
-	// 	}
-	// 	$data['content'] = 'editnews';
-	// 	$this->load->view('include/layout', $data);
-	// }
-	// public function loadFile() {
-	// 	$dir = 'assets/file/upload';
-	// 	$ignored = array('.', '..', '.svn', '.htaccess');
-
-	// 	$files = array();
-	// 	foreach (scandir($dir) as $f) {
-	// 		if (in_array($f, $ignored)) continue;
-	// 		$files[$f] = filemtime($dir . '/' . $f);
-	// 	}
-
-	// 	arsort($files);
-	// 	$files = array_keys($files);
-
-	// 	$files = array_map(function($v) {
-	// 		return iconv('windows-874', 'UTF-8', $v);
-	// 	}, $files);
-
-	// 	echo json_encode($files);
-	// }
-	// public function uploadFile() {
-	// 	if($_FILES) {
-	// 		$filename = str_replace(' ', '_', $_FILES['file']['name']);
-	// 		$directory = 'assets/file/upload/';
-	// 		if(file_exists($directory.'/'.$filename)){
-	// 			$filename = $this->rename($directory, $filename);
-	// 		}
-	// 		if(move_uploaded_file($_FILES['file']['tmp_name'], $directory.'/'.$filename)) {
-	// 			echo $directory;
-	// 		}else{
-	// 			echo 0;
-	// 		}
-	// 	}
-	// }
-	// public function deleteFile() {
-	// 	if(unlink('assets/file/upload/'.iconv('utf-8', 'tis-620', $this->input->post('name')))) {
-	// 		echo 1;
-	// 	} else {
-	// 		echo 0;
-	// 	}
-	// }
-	// public function rename($directory, $filename){
-	// 	$basename = pathinfo($filename, PATHINFO_FILENAME);
-	// 	$extension = pathinfo($filename, PATHINFO_EXTENSION);
-	// 	$i = 1;
-	// 	do {
-	// 		$newname = $basename.'_'.$i++.'.'.$extension;
-	// 	} while(
-	// 		file_exists($directory.'/'.$newname)
-	// 	);
-	// 	return $newname;
-	// }
-	// public function login() {
-	// 	if($this->input->post()) {
-	// 		$username	= $this->input->post('username');
-	// 		$password	= $this->input->post('password');
-
-	// 		if ($username != '') {
-	// 			$sess['username']	= $username;
-	// 			$sess['name']		= "{$username} นามสกุล";
-	// 			$sess['name_en']	= 'FName Sname';
-	// 			$sess['gender']		= 'M';
-	// 			$sess['dept_id']	= '006';
-	// 			$sess['dept_name']	= 'กองกิจการนักศึกษา สำนักงานอธิการบดี';
-	// 			$sess['type']		= 'admin';
-	// 			$sess['login']		= true;
-
-	// 			$admin = $this->IndexModel->loadAdmin($username);
-	// 			if(count($admin)) {
-	// 				$sess['fac']	= '01';
-	// 				$sess['level']	= $admin[0]['admin_level'];
-	// 				$sess['dev']	= $admin[0]['level_id'] === 0 ? true : false;
-	// 				$this->session->set_userdata($sess);
-
-	// 			} else {
-	// 				$dept	= str_replace('dept', '', $username);
-	// 				if(is_numeric($username) && $username > 6000 && $username < 6100) {
-	// 					$sess['name']		= "นาย{$username} นามสกุล";
-	// 					$sess['fac']	= substr($username, 2, 2);
-	// 					$sess['dept_id']	= '034';
-	// 					$sess['dept_name']	= 'ภาควิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์';
-	// 					$sess['type']				= 'student';
-	// 					$this->session->set_userdata($sess);
-
-	// 				} else if($dept > 0 && $dept < 100) {
-	// 					$sess['fac']	= $dept;
-	// 					$sess['level']	= 2;
-	// 					$this->session->set_userdata($sess);
-
-	// 				} else {
-	// 					redirect('?fail=notallow');
-	// 				}
-	// 			}
-	// 		} else {
-	// 			redirect('?fail=wrong');
-	// 		}
-	// 		redirect();
-	// 	}
-	// }
-	
-	// public function logout() {
-	// 	$this->session->sess_destroy();
-	// 	redirect();
-	// }
 }

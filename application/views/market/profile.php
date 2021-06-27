@@ -10,12 +10,27 @@
   <style>
 
     #map {
-      /* position: absolute; */
-      /* top: 0;
-      bottom: 0; */
-	  /* width: 50px; */
-	  height: 400px;
+	  height: 300px;
+	  
     }
+
+	.comment {
+		width: 50px;
+		height: 50px;
+	}
+
+	.head {
+        width: 50%;
+        height: 300px;
+    }
+
+	@media screen and (max-width: 480px) {
+		.head {
+            width: 100%;
+            height: 300px;
+        }
+	}
+	
   </style>
 
 <!-- <div class="container-fluid" id="container-wrapper"> -->
@@ -38,59 +53,58 @@
 			<div class="card-body">
                 <div class="row text-center">
                     <div class="col-sm">
-                        <img src="https://images.thaiza.com/119/119_20190116100624..jpg" class="img-thumbnail" alt="" width="400" height="400">
-                    </div>
+						<?php if ($marketdetail[0]['m_img'] != ''): ?>
+                            <img id="previewImg" src="<?php echo site_url('assets/img/market/'.$marketdetail[0]['m_img']); ?>" class="img-thumbnail head">
+                        <?php else: ?>
+                            <img id="previewImg" src="<?php echo site_url('assets/img/logo/store.png'); ?>" class="img-thumbnail head">
+                        <?php endif; ?>
+					</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-sm">
-                        ชื่อร้าน : <?php echo $marketdetail[0]['m_shopname'];?>
+                    <div class="col-4 col-xl-2 d-flex justify-content-end">
+                      	<b>ชื่อร้าน :</b> 
+                    </div>
+					<div class="col">
+                        <?=$marketdetail[0]['m_shopname'];?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm">
-                        เจ้าของร้าน : <?php echo $marketdetail[0]['m_name'];?> <?php echo $marketdetail[0]['m_lname'];?>
+                    <div class="col-4 col-xl-2 d-flex justify-content-end">
+                		<b>เจ้าของร้าน :</b> 
                     </div>
-                    <div class="col-sm">
-                        ประเภท : <?php echo $marketdetail[0]['m_shoptype'];?>
+					<div class="col-8 col-xl-2">
+						<?=$marketdetail[0]['m_name'],' ',$marketdetail[0]['m_lname'];?>
+                    </div>
+                    <div class="col-4 col-xl-2 d-flex justify-content-end">
+                    	<b>ประเภท :</b>
+                    </div>
+					<div class="col-8 col-xl-6">
+                        <?php 
+							if ($marketdetail[0]['m_shoptype'] == 1) {
+								echo 'เสื้อผ้า';
+							} else if ($marketdetail[0]['m_shoptype'] == 2) {
+								echo 'อาหาร';
+							} else if ($marketdetail[0]['m_shoptype'] == 2) {
+								echo 'ของฝาก';
+							} else if ($marketdetail[0]['m_shoptype'] == 2) {
+								echo 'เครื่องใช้ไฟฟ้า';
+							} else {
+								echo 'ผลไม้';
+							}
+						?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        รายละเอียดร้าน : <?php echo $marketdetail[0]['m_shopdetail'];?>
+                    <div class="col-4 col-xl-2 d-flex justify-content-end">
+						<b>รายละเอียด :</b>
+                    </div>
+					<div class="col-8">
+						<?php echo $marketdetail[0]['m_shopdetail'];?>
                     </div>
                 </div>
                 <div class="row mt-3 text-center">
                     <div class="col-sm-12">
-                        <h4>สินค้าแนะนำ</h4> 
-                    </div>
-                </div>
-                <div class="row mt-3 text-center">
-                    <?php
-                        //echo count($goods) == 0 ? '<div class="col-sm">-ไม่มีข้อมูลสินค้า-</div>' : '';
-						foreach($goods as $r){
-					?>	
-                    <div class="col-sm-3 mb-3">
-                        <div class="card">
-                            <img src="https://amvata.com/images/detailed/107/22038_2172.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $r['g_name'];?></h5>
-                                <p class="card-text"><?php echo $r['g_price'];?> บาท</p>
-                                <a href="<?php echo site_url("admin/gooddetail"); ?>" class="btn btn-sm btn-primary">ดูรายละเอียดเพิ่มเติม</a>
-                            </div>
-                        </div>
-					</div>
-					<?php
-						}
-					?>
-                </div>
-                <div class="row mt-3 text-center">
-                    <div class="col-sm-12">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addgoodsModal">เพิ่มสินค้า</button>
-                    </div>
-                </div>
-                <div class="row mt-3 text-center">
-                    <div class="col-sm-12">
-                        <h4>ภาพแผนที่ตั้งร้าน</h4>
+                        <h4>แผนที่ตั้งร้าน</h4>
                     </div>
                 </div>
                 <div class="row mt-3 text-center">
@@ -99,12 +113,27 @@
                         <!-- <img src="https://static.posttoday.com/media/content/2018/02/21/6A4F3A5B48E94BB7A216F55CA98AF3F3.jpg" class="img-thumbnail" alt="" width="400" height="400"> -->
                     </div>
                 </div>
-                <div class="row mt-5 text-right">
+                <div class="row mt-3 text-center">
                     <div class="col-sm">
                         <a href="<?php echo site_url("market/marketedit"); ?>"  class="btn btn-sm btn-success">แก้ไขข้อมูล</a>
                         <!-- <a class="btn btn-sm btn-success">แก้ไข</a> -->
                     </div>
                 </div>
+				<!-- <div class="row mt-3">
+                    <div class="col-sm text-center">
+						<h4>ความคิดเห็น</h4>
+                    </div>
+                </div>
+				<div class="row mt-3 align-items-center">
+                    <div class="col-2 text-center">
+						<img src="https://images.thaiza.com/119/119_20190116100624..jpg" class="rounded-circle comment">
+                    </div>
+					<div class="col-10">
+						คะแนน
+						<br>
+						คอมเมนต์
+                    </div>
+                </div> -->
 			</div>
 		</div>
 	</div>
@@ -119,429 +148,10 @@
 		container: 'map', // Specify the container ID
 		style: 'mapbox://styles/mapbox/streets-v11', // Specify which map style to use
 		center: [<?php echo $marketdetail[0]['m_lng'];?>, <?php echo $marketdetail[0]['m_lat'];?>], // Specify the starting position
-		zoom: 18, // Specify the starting zoom
+		zoom: 15, // Specify the starting zoom
 	});
 
 	var marker = new mapboxgl.Marker()
 		.setLngLat([<?php echo $marketdetail[0]['m_lng'];?>, <?php echo $marketdetail[0]['m_lat'];?>])
 		.addTo(map);
 </script>
-
-<!-- <script>
-	var map = L.map('map').setView([51.505, -0.09], 13);
-
-	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-	}).addTo(map);
-
-	L.marker([51.5, -0.09]).addTo(map)
-		.bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-		.openPopup();
-</script> -->
-
-
-<script>
-	function editDeptsModal(dept_id) {
-		$.ajax({
-			method: "POST",
-			url: "<?php echo site_url('admin/loadDeptid'); ?>",
-			data: {
-				dept_id: dept_id
-			}
-		})
-		.done(function(result) {
-			result = JSON.parse(result)
-			result = result[0]
-			$('#edit_dept_id').val(result['dept_id'])
-			$('#edit_dept_admin').html(result['dept_admin'])
-			$('#edit_div_name').html(result['div_name'])
-			$('#edit_job_id').val(result['job_id'])
-			$('#edit_dept_description').val(result['dept_description'])
-			$('#edit_dept_property').val(result['dept_property'])
-			$('#edit_dept_time' + result['dep_time']).prop('checked', true)
-			$('#edit_dept_gender' + result['dept_gender']).prop('checked', true)
-			$('#edit_dept_tel').val(result['dept_tel'])
-		});
-		$('#editDeptsModal').modal('show')
-	}
-</script>
-
-<script>
-	function editRegistModal(regist_id) {
-		$.ajax({
-			method: "POST",
-			url: "<?php echo site_url('admin/loadRegistid'); ?>",
-			data: {
-				regist_id: regist_id
-			}
-		})
-		.done(function(result) {
-			result = JSON.parse(result)
-			result = result[0]
-			// console.log(result['regist_start'].substring(0, 9))
-			$('#edit_regist_id').val(result['regist_id'])
-			$('#edit_regist_term').val(result['regist_term'])
-			$('#edit_regist_year').val(result['regist_year'])
-			$('#edit_regist_start').val(result['regist_start'].substring(0, 10))
-			$('#edit_regist_stop').val(result['regist_stop'].substring(0, 10))
-			$('#edit_dept_start').val(result['dept_start'].substring(0, 10))
-			$('#edit_dept_stop').val(result['dept_stop'].substring(0, 10))
-		});
-		$('#editRegistModal').modal('show')
-	}
-</script>
-
-<div class="modal fade" id="addgoodsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        <div class="modal-body">
-            <form action="<?php echo site_url('admin/editDept'); ?>" method="post">
-                <input type="hidden" name="dept_id" id="edit_dept_id">
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td width="35%">ชื่อสินค้า</td>
-                                <td>
-                                    <input class="form-control form-control-sm"  type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>รายละเอียดสินค้า</td>
-                                <td>
-                                    <input class="form-control form-control-sm"  type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ราคา</td>
-                                <td>
-                                    <input class="form-control form-control-sm"  type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ภาพ</td>
-                                <td>
-                                    <input class="form-control form-control-sm"  type="text">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">ยกเลิก</button>
-                        <button type="submit" class="btn btn-primary btn-sm" name="btnSubmit">บันทึก</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="addgoods" tabindex="-1" role="dialog" aria-labelledby="editDeptsLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="editDeptsLabel"><i class="far fa-edit"></i> แก้ไขหน่วยงาน</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form action="<?php echo site_url('admin/editDept'); ?>" method="post">
-				<input type="hidden" name="dept_id" id="edit_dept_id">
-				<div class="modal-body">
-					<div class="table-responsive">
-						<table class="table table-borderless">
-							<tr>
-								<td>ผู้ควบคุม</td>
-								<td><span id="edit_dept_admin"></span></td>
-							</tr>
-							<tr>
-								<td>หน่วยงาน</td>
-								<td><span id="edit_div_name"></span></td>
-							</tr>
-							<tr>
-								<td>ประเภทงาน</td>
-								<td>
-									<select id="edit_job_id" name="job_id" class="form-control form-control-sm" required>
-										<option value="" disabled selected>เลือกประเภทงาน</option>
-										<?php foreach($job as $r){?>
-											<option value="<?php echo $r['job_id'];?>"><?php echo $r['job_name'];?></option>
-										<?php } ?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>ลักษณะงาน</td>
-								<td><textarea id="edit_dept_description" name="dept_description" class="form-control form-control-sm" required></textarea></td>
-							</tr>
-							<tr>
-								<td>คุณสมบัติ</td>
-								<td><textarea id="edit_dept_property" name="dept_property" class="form-control form-control-sm" required></textarea></td>
-							</tr>
-							<tr>
-								<td>เวลาทำงาน</td>
-								<td>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_time" id="edit_dept_time0" value="0" checked>
-										<label class="form-check-label" for="dept_time0"> ในเวลาราชการ</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_time" id="edit_dept_time1" value="1">
-										<label class="form-check-label" for="dept_time1"> นอกเวลาราชการ</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_time" id="edit_dept_time2" value="2">
-										<label class="form-check-label" for="dept_time2"> ในและนอกเวลาราชการ</label>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>เพศ</td>
-								<td>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_gender" id="edit_dept_genderM" value="M" checked>
-										<label class="form-check-label" for="dept_genderM"> ชาย</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_gender" id="edit_dept_genderF" value="F">
-										<label class="form-check-label" for="dept_genderF"> หญิง</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_gender" id="edit_dept_genderB" value="B">
-										<label class="form-check-label" for="dept_genderB"> ทั้งสอง</label>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td rowspan="">เบอร์โทร</td>
-								<td><input id="edit_dept_tel" type="text" class="form-control form-control-sm" name="dept_tel" required></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">ยกเลิก</button>
-					<button type="submit" class="btn btn-primary btn-sm" name="btnSubmit">บันทึก</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="editRegistModal" tabindex="-1" role="dialog" aria-labelledby="editRegistLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="editRegistLabel"><i class="far fa-edit"></i> แก้ไขรอบการทำงาน</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-			</div>
-			<form action="<?php echo site_url('admin/editRegist'); ?>" method="post">
-				<input type="hidden" name="regist_id" id="edit_regist_id">
-				<div class="modal-body">
-					<div class="table-responsive">
-						<table class="table">
-							<tr>
-								<td>เทอม/ปีการศึกษา</td>
-								<td>
-									<select id="edit_regist_term" name="regist_term" class="form-control form-control-sm" required>
-										<option value="1">เทอม 1</option>
-										<option value="2">เทอม 2</option>
-										<option value="3">เทอม 3</option>
-									</select>
-								</td>
-								<td>
-									<select id="edit_regist_year" name="regist_year" class="form-control form-control-sm" required>
-										<?php for($i = date('Y'); $i >= 2019; $i--) { ?> 
-											<option value="<?php echo $i; ?>">ปีการศึกษา <?php echo $i + 543; ?></option>
-										<?php } ?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td rowspan="2">วันรับสมัคร</td>
-								<td>เปิด</td>
-								<td><input id="edit_regist_start" type="date" class="form-control form-control-sm" name="regist_start" required></td>
-							</tr>
-							<tr>
-								<td>ปิด</td>
-								<td><input id="edit_regist_stop" type="date" class="form-control form-control-sm" name="regist_stop" required></td>
-							</tr>
-							<tr>
-								<td rowspan="2">วันเลือกหน่วยงาน</td>
-								<td>เปิด</td>
-								<td><input id="edit_dept_start" type="date" class="form-control form-control-sm" name="dept_start" required></td>
-							</tr>
-							<tr>
-								<td>ปิด</td>
-								<td><input id="edit_dept_stop" type="date" class="form-control form-control-sm" name="dept_stop" required></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">ปิด</button>
-					<button type="submit" class="btn btn-primary btn-sm" name="btnSubmit">แก้ไข</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-
-<div class="modal fade" id="addRegistModal" tabindex="-1" role="dialog" aria-labelledby="addRegistLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="addRegistLabel"><i class="fas fa-plus"></i> เพิ่มรอบการทำงาน</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-			</div>
-			<form action="<?php echo site_url('admin/addRegist'); ?>" method="post">
-				<div class="modal-body">
-					<div class="table-responsive">
-						<table class="table">
-							<tr>
-								<td>เทอม/ปีการศึกษา</td>
-								<td>
-									<select name="term" class="form-control form-control-sm" required>
-										<option value="1">เทอม 1</option>
-										<option value="2">เทอม 2</option>
-										<option value="3">เทอม 3</option>
-									</select>
-								</td>
-								<td>
-									<select name="year" class="form-control form-control-sm" required>
-										<?php for($i = date('Y'); $i >= 2019; $i--) { ?> 
-											<option value="<?php echo $i; ?>">ปีการศึกษา <?php echo $i + 543; ?></option>
-										<?php } ?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td rowspan="2">วันรับสมัคร</td>
-								<td>เปิด</td>
-								<td><input type="date" class="form-control form-control-sm" name="regist_start" value="<?php echo date('Y-m-d'); ?>" required></td>
-							</tr>
-							<tr>
-								<td>ปิด</td>
-								<td><input type="date" class="form-control form-control-sm" name="regist_stop" value="<?php echo date('Y-m-d'); ?>" required></td>
-							</tr>
-							<tr>
-								<td rowspan="2">วันเลือกหน่วยงาน</td>
-								<td>เปิด</td>
-								<td><input type="date" class="form-control form-control-sm" name="dept_start" value="<?php echo date('Y-m-d'); ?>" required></td>
-							</tr>
-							<tr>
-								<td>ปิด</td>
-								<td><input type="date" class="form-control form-control-sm" name="dept_stop" value="<?php echo date('Y-m-d'); ?>" required></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">ปิด</button>
-					<button type="submit" class="btn btn-primary btn-sm" name="btnSubmit">เพิ่ม</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="addDeptsModal" tabindex="-1" role="dialog" aria-labelledby="addDeptLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="addDeptLabel"><i class="fas fa-plus"></i> เพิ่มหน่วยงานพิเศษ</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form action="<?php echo site_url('admin/addDept'); ?>" method="post">
-				<input type="hidden" name="dept_status" value="3">
-				<div class="modal-body">
-					<div class="table-responsive">
-						<table class="table table-borderless">
-							<tr>
-								<td>ผู้ควบคุม</td>
-								<td><?php echo $this->session->userdata('name');?></td>
-							</tr>
-							<tr>
-								<td>หน่วยงาน</td>
-								<td><?php echo $this->session->userdata('dept_name');?></td>
-							</tr>
-							<tr>
-								<td>ประเภทงาน</td>
-								<td>
-									<select name="job_id" class="form-control form-control-sm" required>
-										<option value="" disabled selected>เลือกประเภทงาน</option>
-										<?php foreach($job as $r){?>
-											<option value="<?php echo $r['job_id'];?>"><?php echo $r['job_name'];?></option>
-										<?php } ?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>ลักษณะงาน</td>
-								<td><textarea name="dept_description" class="form-control form-control-sm" required></textarea></td>
-							</tr>
-							<tr>
-								<td>คุณสมบัติ</td>
-								<td><textarea name="dept_property" class="form-control form-control-sm" required></textarea></td>
-							</tr>
-							<tr>
-								<td>เวลาทำงาน</td>
-								<td>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_time" id="dept_time0" value="0" checked>
-										<label class="form-check-label" for="dept_time0"> ในเวลาราชการ</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_time" id="dept_time1" value="1">
-										<label class="form-check-label" for="dept_time1"> นอกเวลาราชการ</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_time" id="dept_time2" value="2">
-										<label class="form-check-label" for="dept_time2"> ในและนอกเวลาราชการ</label>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>เพศ</td>
-								<td>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_gender" id="dept_genderM" value="M" checked>
-										<label class="form-check-label" for="dept_genderM"> ชาย</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_gender" id="dept_genderF" value="F">
-										<label class="form-check-label" for="dept_genderF"> หญิง</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="dept_gender" id="dept_genderB" value="B">
-										<label class="form-check-label" for="dept_genderB"> ทั้งสอง</label>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td rowspan="">เบอร์โทร</td>
-								<td><input type="text" class="form-control form-control-sm" name="dept_tel" required></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary btn-sm" name="btnSubmit">บันทึก</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
